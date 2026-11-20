@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head th:replace="~{fragments/head :: head('Início')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/menu :: menu('inicio')}"></aside>
+
+    <main class="conteudo">
+        <header th:replace="~{fragments/menu :: topo('Início')}"></header>
+
+        <div class="pagina">
+            <section class="banner">
+                <div>
+                    <span class="banner-tag">Painel da academia</span>
+                    <h2>Bem-vindo ao Gestão Academia</h2>
+                    <p>Controle planos, alunos, matrículas, mensalidades e a entrada na academia em um só lugar.</p>
+                </div>
+                <i class="bi bi-lightning-charge-fill banner-icone"></i>
+            </section>
+
+            <h3 class="secao-titulo">Acesso rápido</h3>
+            <div class="row g-3">
+                <div class="col-sm-6 col-xl-3">
+                    <a th:href="@{/planos}" class="atalho">
+                        <span class="atalho-icone cor-1"><i class="bi bi-card-checklist"></i></span>
+                        <strong>Planos</strong>
+                        <small>Valores, duração e modalidades</small>
+                    </a>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <a th:href="@{/alunos}" class="atalho">
+                        <span class="atalho-icone cor-2"><i class="bi bi-people"></i></span>
+                        <strong>Alunos</strong>
+                        <small>Cadastro e busca de alunos</small>
+                    </a>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <a th:href="@{/matriculas}" class="atalho">
+                        <span class="atalho-icone cor-3"><i class="bi bi-journal-check"></i></span>
+                        <strong>Matrículas</strong>
+                        <small>Plano, instrutor e vencimento</small>
+                    </a>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <a th:href="@{/acessos}" class="atalho">
+                        <span class="atalho-icone cor-4"><i class="bi bi-door-open"></i></span>
+                        <strong>Check-in</strong>
+                        <small>Entrada dos alunos</small>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </main>
+</div>
+<th:block th:replace="~{fragments/footer :: scripts}"></th:block>
+</body>
+</html>

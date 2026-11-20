@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<aside th:fragment="menu(ativo)" class="sidebar" id="sidebar">
+    <a th:href="@{/}" class="sidebar-marca">
+        <span class="marca-icone"><i class="bi bi-lightning-charge-fill"></i></span>
+        <span>Gestão<strong>Academia</strong></span>
+    </a>
+
+    <nav class="sidebar-nav">
+        <span class="sidebar-titulo">Geral</span>
+        <a th:href="@{/}" th:classappend="${ativo == 'inicio'} ? 'ativo'"><i class="bi bi-grid-1x2"></i> Início</a>
+
+        <span class="sidebar-titulo">Academia</span>
+        <a th:href="@{/planos}" th:classappend="${ativo == 'planos'} ? 'ativo'"><i class="bi bi-card-checklist"></i> Planos</a>
+        <a th:href="@{/modalidades}" th:classappend="${ativo == 'modalidades'} ? 'ativo'"><i class="bi bi-bicycle"></i> Modalidades</a>
+        <a th:href="@{/instrutores}" th:classappend="${ativo == 'instrutores'} ? 'ativo'"><i class="bi bi-person-badge"></i> Instrutores</a>
+
+        <span class="sidebar-titulo">Atendimento</span>
+        <a th:href="@{/alunos}" th:classappend="${ativo == 'alunos'} ? 'ativo'"><i class="bi bi-people"></i> Alunos</a>
+        <a th:href="@{/matriculas}" th:classappend="${ativo == 'matriculas'} ? 'ativo'"><i class="bi bi-journal-check"></i> Matrículas</a>
+        <a th:href="@{/mensalidades}" th:classappend="${ativo == 'mensalidades'} ? 'ativo'"><i class="bi bi-cash-coin"></i> Mensalidades</a>
+        <a th:href="@{/acessos}" th:classappend="${ativo == 'acessos'} ? 'ativo'"><i class="bi bi-door-open"></i> Check-in</a>
+    </nav>
+</aside>
+
+<header th:fragment="topo(titulo)" class="topo">
+    <button class="btn btn-icone d-lg-none" type="button" onclick="document.getElementById('sidebar').classList.toggle('aberto')">
+        <i class="bi bi-list"></i>
+    </button>
+    <h1 class="topo-titulo" th:text="${titulo}">Início</h1>
+    <div class="topo-usuario">
+        <span class="avatar"><i class="bi bi-person"></i></span>
+    </div>
+</header>
+
+</body>
+</html>
