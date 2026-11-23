@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 
 <aside th:fragment="menu(ativo)" class="sidebar" id="sidebar">
@@ -30,8 +30,15 @@
         <i class="bi bi-list"></i>
     </button>
     <h1 class="topo-titulo" th:text="${titulo}">Início</h1>
-    <div class="topo-usuario">
+    <div class="topo-usuario" sec:authorize="isAuthenticated()">
+        <div class="text-end d-none d-sm-block">
+            <strong sec:authentication="name">usuario</strong>
+            <small class="d-block text-secondary"><span th:each="perfil, i : ${#authentication.authorities}" th:text="${perfil.authority} + (${i.last} ? '' : ', ')">perfil</span></small>
+        </div>
         <span class="avatar"><i class="bi bi-person"></i></span>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn btn-sair" title="Sair"><i class="bi bi-box-arrow-right"></i></button>
+        </form>
     </div>
 </header>
 

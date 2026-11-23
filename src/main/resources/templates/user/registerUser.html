@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Cadastrar usuário')}"></head>
+<body class="tela-acesso">
+<div class="acesso-card">
+    <div class="acesso-marca">
+        <span class="marca-icone"><i class="bi bi-lightning-charge-fill"></i></span>
+        <span>Gestão<strong>Academia</strong></span>
+    </div>
+
+    <h1>Cadastrar usuário</h1>
+    <p class="acesso-sub">Preencha os dados e escolha o perfil de acesso.</p>
+
+    <div th:if="${msg}" class="alert alert-success" th:text="${msg}"></div>
+
+    <form th:action="@{/saveUser}" th:object="${user}" method="post">
+        <div class="mb-3">
+            <label for="name" class="form-label">Nome</label>
+            <input type="text" class="form-control" th:field="*{name}" th:errorclass="is-invalid" placeholder="Digite o nome">
+            <div class="invalid-feedback" th:errors="*{name}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">E-mail</label>
+            <input type="email" class="form-control" th:field="*{email}" th:errorclass="is-invalid" placeholder="Digite o e-mail">
+            <div class="invalid-feedback" th:errors="*{email}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Senha</label>
+            <input type="password" class="form-control" th:field="*{password}" th:errorclass="is-invalid" placeholder="Digite a senha">
+            <div class="invalid-feedback" th:errors="*{password}"></div>
+        </div>
+        <div class="mb-4">
+            <label class="form-label d-block">Perfil</label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" th:field="*{roles}" value="Admin" id="roleAdmin">
+                <label class="form-check-label" for="roleAdmin">Admin</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" th:field="*{roles}" value="Recepcao" id="roleRecepcao">
+                <label class="form-check-label" for="roleRecepcao">Recepção</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" th:field="*{roles}" value="Aluno" id="roleAluno">
+                <label class="form-check-label" for="roleAluno">Aluno</label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-principal w-100">Cadastrar</button>
+    </form>
+
+    <p class="acesso-rodape">Já tem conta? <a th:href="@{/login}">Entrar</a></p>
+</div>
+</body>
+</html>

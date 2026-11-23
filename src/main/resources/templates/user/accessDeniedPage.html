@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Acesso negado')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/menu :: menu('')}"></aside>
+
+    <main class="conteudo">
+        <header th:replace="~{fragments/menu :: topo('Acesso negado')}"></header>
+
+        <div class="pagina d-flex align-items-center justify-content-center">
+            <div class="text-center">
+                <span class="atalho-icone cor-1 mx-auto"><i class="bi bi-shield-lock"></i></span>
+                <h2 class="fw-bold mt-3">Acesso negado</h2>
+                <p class="text-secondary mb-4">Seu perfil não tem permissão para acessar esta página.</p>
+                <a th:href="@{/}" class="btn btn-principal">Voltar para o início</a>
+            </div>
+        </div>
+
+        <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </main>
+</div>
+<th:block th:replace="~{fragments/footer :: scripts}"></th:block>
+</body>
+</html>

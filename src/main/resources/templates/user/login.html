@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Entrar')}"></head>
+<body class="tela-acesso">
+<div class="acesso-card">
+    <div class="acesso-marca">
+        <span class="marca-icone"><i class="bi bi-lightning-charge-fill"></i></span>
+        <span>Gestão<strong>Academia</strong></span>
+    </div>
+
+    <h1>Entrar</h1>
+    <p class="acesso-sub">Use seu e-mail e senha para acessar o sistema.</p>
+
+    <div th:if="${param.error}" class="alert alert-danger">E-mail ou senha inválidos.</div>
+    <div th:if="${param.logout}" class="alert alert-success">Você saiu do sistema.</div>
+
+    <form th:action="@{/login}" method="post">
+        <div class="mb-3">
+            <label for="username" class="form-label">E-mail</label>
+            <input type="email" class="form-control" id="username" name="username" placeholder="Digite seu e-mail" required autofocus>
+        </div>
+        <div class="mb-4">
+            <label for="password" class="form-label">Senha</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Digite sua senha" required>
+        </div>
+        <button type="submit" class="btn btn-principal w-100">Entrar</button>
+    </form>
+
+    <p class="acesso-rodape">Não tem conta? <a th:href="@{/register}">Cadastre-se</a></p>
+</div>
+</body>
+</html>
