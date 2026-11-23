@@ -22,6 +22,9 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(requests -> requests
                 .requestMatchers("/register", "/saveUser", "/css/**", "/error").permitAll()
+                .requestMatchers("/planos/novo", "/planos/salvar", "/planos/editar/**", "/planos/atualizar/**",
+                        "/planos/excluir/**")
+                .hasAuthority("Admin")
                 .anyRequest().authenticated())
                 .formLogin(login -> login
                         .loginPage("/login")

@@ -322,6 +322,112 @@ body {
 .cor-3 { background: #dcfce7; color: #16a34a; }
 .cor-4 { background: #f3e8ff; color: #9333ea; }
 
+.pagina-cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.pagina-cabecalho h2 {
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin: 0;
+}
+
+.pagina-cabecalho p {
+    color: var(--cor-texto-suave);
+    margin: 2px 0 0;
+}
+
+.card-tabela,
+.card-form {
+    background: var(--cor-card);
+    border: 1px solid var(--cor-borda);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.card-form {
+    padding: 26px;
+    max-width: 860px;
+}
+
+.card-tabela th {
+    background: #f8fafc;
+    color: var(--cor-texto-suave);
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    font-weight: 600;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.card-tabela td {
+    padding: 14px 18px;
+    border-color: var(--cor-borda);
+}
+
+.card-tabela tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.vazio {
+    text-align: center;
+    color: var(--cor-texto-suave);
+    padding: 32px !important;
+}
+
+.badge-status {
+    display: inline-block;
+    font-size: .75rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+.badge-status.ativo { background: #dcfce7; color: #15803d; }
+.badge-status.inativo { background: #f1f5f9; color: #64748b; }
+
+.btn-acao {
+    display: inline-grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    color: var(--cor-texto-suave);
+    border: 1px solid var(--cor-borda);
+    text-decoration: none;
+    margin-left: 4px;
+}
+
+.btn-acao:hover {
+    color: var(--cor-principal-escura);
+    border-color: #fdba74;
+    background: #fff7ed;
+}
+
+.btn-acao.perigo:hover {
+    color: #dc2626;
+    border-color: #fca5a5;
+    background: #fef2f2;
+}
+
+.form-botoes {
+    display: flex;
+    gap: 10px;
+    margin-top: 26px;
+}
+
+.form-botoes .btn {
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
 .rodape {
     display: flex;
     justify-content: space-between;

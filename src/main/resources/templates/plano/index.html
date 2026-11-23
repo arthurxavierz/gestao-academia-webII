@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head('Planos')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/menu :: menu('planos')}"></aside>
+
+    <main class="conteudo">
+        <header th:replace="~{fragments/menu :: topo('Planos')}"></header>
+
+        <div class="pagina">
+            <div class="pagina-cabecalho">
+                <div>
+                    <h2>Planos cadastrados</h2>
+                    <p>Valores e duração dos planos oferecidos pela academia.</p>
+                </div>
+                <a sec:authorize="hasAuthority('Admin')" th:href="@{/planos/novo}" class="btn btn-principal">
+                    <i class="bi bi-plus-lg"></i> Cadastrar Plano
+                </a>
+            </div>
+
+            <div th:if="${param.erroExclusao}" class="alert alert-warning">
+                Este plano está em uso e não pode ser excluído.
+            </div>
+
+            <div class="card-tabela">
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Valor</th>
+                            <th>Duração</th>
+                            <th>Situação</th>
+                            <th sec:authorize="hasAuthority('Admin')" class="text-end">Ações</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="plano : ${planos}">
+                            <td th:text="${plano.id}"></td>
+                            <td class="fw-semibold" th:text="${plano.nome}"></td>
+                            <td th:text="'R$ ' + ${#numbers.formatDecimal(plano.valor, 1, 'POINT', 2, 'COMMA')}"></td>
+                            <td th:text="${plano.duracaoDias} + ' dias'"></td>
+                            <td>
+                                <span th:if="${plano.ativo}" class="badge-status ativo">Ativo</span>
+                                <span th:unless="${plano.ativo}" class="badge-status inativo">Inativo</span>
+                            </td>
+                            <td sec:authorize="hasAuthority('Admin')" class="text-end text-nowrap">
+                                <a th:href="@{/planos/editar/{id}(id=${plano.id})}" class="btn-acao" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a th:href="@{/planos/excluir/{id}(id=${plano.id})}" class="btn-acao perigo" title="Excluir"
+                                   onclick="return confirm('Deseja realmente excluir este plano?')">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(planos)}">
+                            <td colspan="6" class="vazio">Nenhum plano cadastrado.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </main>
+</div>
+<th:block th:replace="~{fragments/footer :: scripts}"></th:block>
+</body>
+</html>
