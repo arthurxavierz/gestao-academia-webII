@@ -60,7 +60,8 @@ public class UserControllerTest {
     }
 
     @Test
-    @DisplayName("GET /register - Abre o cadastro de usuário")
+    @WithMockUser(username = "admin@academia.com", authorities = { "Admin" })
+    @DisplayName("GET /register - Admin abre o cadastro de usuário")
     void testRegisterPage() throws Exception {
         mockMvc.perform(get("/register"))
                 .andExpect(status().isOk())
@@ -69,6 +70,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin@academia.com", authorities = { "Admin" })
     @DisplayName("POST /saveUser - Salva usuário com dados válidos")
     void testSaveUser() throws Exception {
         when(userService.saveUser(any(User.class))).thenReturn(1L);
@@ -86,6 +88,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin@academia.com", authorities = { "Admin" })
     @DisplayName("POST /saveUser - Não salva com campos vazios")
     void testSaveUserInvalid() throws Exception {
         mockMvc.perform(post("/saveUser").with(csrf())
@@ -95,6 +98,36 @@ public class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("user/registerUser"))
                 .andExpect(model().attributeHasFieldErrors("user", "name", "email", "password"));
+
+        verify(userService, never()).saveUser(any(User.class));
+    }
+
+    @Test
+    @DisplayName("GET /register - Usuário não logado é mandado para o login")
+    void testRegisterNotAuthenticated() throws Exception {
+        mockMvc.perform(get("/register"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlPattern("**/login"));
+    }
+
+    @Test
+    @WithMockUser(username = "recepcao@academia.com", authorities = { "Recepcao" })
+    @DisplayName("GET /register - Recepção não pode cadastrar usuários")
+    void testRegisterRecepcao() throws Exception {
+        mockMvc.perform(get("/register"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(username = "aluno@academia.com", authorities = { "Aluno" })
+    @DisplayName("POST /saveUser - Aluno não pode cadastrar usuários")
+    void testSaveUserAluno() throws Exception {
+        mockMvc.perform(post("/saveUser").with(csrf())
+                .param("name", "Teste")
+                .param("email", "teste@academia.com")
+                .param("password", "123456")
+                .param("roles", "Admin"))
+                .andExpect(status().isForbidden());
 
         verify(userService, never()).saveUser(any(User.class));
     }

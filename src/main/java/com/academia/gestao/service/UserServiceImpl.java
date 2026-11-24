@@ -36,6 +36,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public void criarAdminInicial() {
+        if (userRepository.count() > 0) {
+            return;
+        }
+        User admin = new User();
+        admin.setName("Administrador");
+        admin.setEmail("admin@academia.com");
+        admin.setPassword("teste123");
+        admin.setRoles(List.of("Admin"));
+        saveUser(admin);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         Optional<User> opt = userRepository.findUserByEmail(email);

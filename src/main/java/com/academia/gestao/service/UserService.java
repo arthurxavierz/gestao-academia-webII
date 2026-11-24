@@ -6,4 +6,6 @@ public interface UserService {
 
     Long saveUser(User user);
 
+    void criarAdminInicial();
+
 }

@@ -21,7 +21,8 @@ public class SecurityConfig {
             throws Exception {
 
         http.authorizeHttpRequests(requests -> requests
-                .requestMatchers("/register", "/saveUser", "/css/**", "/error").permitAll()
+                .requestMatchers("/css/**", "/error").permitAll()
+                .requestMatchers("/register", "/saveUser").hasAuthority("Admin")
                 .requestMatchers("/planos/novo", "/planos/salvar", "/planos/editar/**", "/planos/atualizar/**",
                         "/planos/excluir/**")
                 .hasAuthority("Admin")
