@@ -32,6 +32,7 @@
                             <th>Nome</th>
                             <th>Valor</th>
                             <th>Duração</th>
+                            <th>Modalidades</th>
                             <th>Situação</th>
                             <th sec:authorize="hasAuthority('Admin')" class="text-end">Ações</th>
                         </tr>
@@ -40,8 +41,12 @@
                         <tr th:each="plano : ${planos}">
                             <td th:text="${plano.id}"></td>
                             <td class="fw-semibold" th:text="${plano.nome}"></td>
-                            <td th:text="'R$ ' + ${#numbers.formatDecimal(plano.valor, 1, 'POINT', 2, 'COMMA')}"></td>
-                            <td th:text="${plano.duracaoDias} + ' dias'"></td>
+                            <td class="text-nowrap" th:text="'R$ ' +${#numbers.formatDecimal(plano.valor, 1, 'POINT', 2, 'COMMA')}"></td>
+                            <td class="text-nowrap" th:text="${plano.duracaoDias} + ' dias'"></td>
+                            <td>
+                                <span th:each="m : ${plano.modalidades}" class="etiqueta" th:text="${m.nome}"></span>
+                                <span th:if="${#lists.isEmpty(plano.modalidades)}" class="text-secondary">-</span>
+                            </td>
                             <td>
                                 <span th:if="${plano.ativo}" class="badge-status ativo">Ativo</span>
                                 <span th:unless="${plano.ativo}" class="badge-status inativo">Inativo</span>
@@ -57,7 +62,7 @@
                             </td>
                         </tr>
                         <tr th:if="${#lists.isEmpty(planos)}">
-                            <td colspan="6" class="vazio">Nenhum plano cadastrado.</td>
+                            <td colspan="7" class="vazio">Nenhum plano cadastrado.</td>
                         </tr>
                         </tbody>
                     </table>

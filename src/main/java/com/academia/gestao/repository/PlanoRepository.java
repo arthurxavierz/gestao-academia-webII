@@ -6,4 +6,6 @@ import com.academia.gestao.model.Plano;
 
 public interface PlanoRepository extends JpaRepository<Plano, Long> {
 
+    boolean existsByModalidadesId(Long modalidadeId);
+
 }

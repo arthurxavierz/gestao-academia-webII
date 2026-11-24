@@ -41,6 +41,19 @@
                             <div class="invalid-feedback" th:errors="*{duracaoDias}"></div>
                         </div>
                         <div class="col-12">
+                            <label class="form-label d-block">Modalidades incluídas</label>
+                            <div class="opcoes">
+                                <label class="opcao" th:each="m : ${modalidades}">
+                                    <input type="checkbox" name="modalidadeIds" th:value="${m.id}"
+                                           th:checked="${#lists.contains(plano.modalidades, m)}">
+                                    <span th:text="${m.nome}">Musculação</span>
+                                </label>
+                                <span th:if="${#lists.isEmpty(modalidades)}" class="text-secondary">
+                                    Nenhuma modalidade cadastrada ainda.
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12">
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" th:field="*{ativo}">
                                 <label class="form-check-label" for="ativo1">Plano ativo</label>

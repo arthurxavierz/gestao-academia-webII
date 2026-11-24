@@ -5,6 +5,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import com.academia.gestao.service.ModalidadeService;
 import com.academia.gestao.service.PlanoService;
 import com.academia.gestao.service.UserService;
 
@@ -19,6 +20,11 @@ public class TestConfig {
     @Bean
     public PlanoService planoService() {
         return Mockito.mock(PlanoService.class);
+    }
+
+    @Bean
+    public ModalidadeService modalidadeService() {
+        return Mockito.mock(ModalidadeService.class);
     }
 
     @Bean

@@ -1,5 +1,7 @@
 package com.academia.gestao.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.academia.gestao.model.Plano;
 import com.academia.gestao.service.PlanoService;
@@ -30,18 +33,21 @@ public class PlanoController {
     @GetMapping("/planos/novo")
     public String novo(Model model) {
         model.addAttribute("plano", new Plano());
+        model.addAttribute("modalidades", planoService.getAllModalidades());
         return "plano/form";
     }
 
     @PostMapping("/planos/salvar")
-    public String salvar(@ModelAttribute @Valid Plano plano, BindingResult result, Model model) {
+    public String salvar(@ModelAttribute @Valid Plano plano, BindingResult result,
+            @RequestParam(required = false) List<Long> modalidadeIds, Model model) {
 
         if (result.hasErrors()) {
             model.addAttribute("plano", plano);
+            model.addAttribute("modalidades", planoService.getAllModalidades());
             return "plano/form";
         }
 
-        planoService.savePlano(plano);
+        planoService.savePlano(plano, modalidadeIds);
         return "redirect:/planos";
     }
 
@@ -54,20 +60,22 @@ public class PlanoController {
         }
 
         model.addAttribute("plano", plano);
+        model.addAttribute("modalidades", planoService.getAllModalidades());
         return "plano/form";
     }
 
     @PostMapping("/planos/atualizar/{id}")
     public String atualizar(@PathVariable Long id, @ModelAttribute @Valid Plano plano, BindingResult result,
-            Model model) {
+            @RequestParam(required = false) List<Long> modalidadeIds, Model model) {
 
         if (result.hasErrors()) {
             plano.setId(id);
             model.addAttribute("plano", plano);
+            model.addAttribute("modalidades", planoService.getAllModalidades());
             return "plano/form";
         }
 
-        planoService.updatePlano(id, plano);
+        planoService.updatePlano(id, plano, modalidadeIds);
         return "redirect:/planos";
     }
 

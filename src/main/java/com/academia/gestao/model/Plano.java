@@ -1,11 +1,16 @@
 package com.academia.gestao.model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -35,5 +40,11 @@ public class Plano {
     private Integer duracaoDias;
 
     private boolean ativo = true;
+
+    @ManyToMany
+    @JoinTable(name = "plano_modalidade",
+            joinColumns = @JoinColumn(name = "plano_id"),
+            inverseJoinColumns = @JoinColumn(name = "modalidade_id"))
+    private List<Modalidade> modalidades = new ArrayList<>();
 
 }

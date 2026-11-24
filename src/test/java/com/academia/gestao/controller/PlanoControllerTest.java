@@ -132,7 +132,7 @@ public class PlanoControllerTest {
                 .andExpect(view().name("plano/form"))
                 .andExpect(model().attributeHasErrors("plano"));
 
-        verify(planoService, never()).savePlano(any(Plano.class));
+        verify(planoService, never()).savePlano(any(Plano.class), any());
     }
 
     @Test
@@ -147,7 +147,7 @@ public class PlanoControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/planos"));
 
-        verify(planoService).savePlano(any(Plano.class));
+        verify(planoService).savePlano(any(Plano.class), any());
     }
 
     @Test
@@ -171,7 +171,7 @@ public class PlanoControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/planos"));
 
-        verify(planoService).updatePlano(eq(1L), any(Plano.class));
+        verify(planoService).updatePlano(eq(1L), any(Plano.class), any());
     }
 
     @Test

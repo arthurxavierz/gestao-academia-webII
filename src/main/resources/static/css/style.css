@@ -389,6 +389,43 @@ body {
     border-radius: 20px;
 }
 
+.etiqueta {
+    display: inline-block;
+    font-size: .75rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 20px;
+    background: #fff7ed;
+    color: #c2410c;
+    margin: 2px 4px 2px 0;
+}
+
+.opcoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.opcao {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 10px;
+    padding: 8px 14px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.opcao:has(input:checked) {
+    border-color: #fdba74;
+    background: #fff7ed;
+}
+
+.opcao input {
+    accent-color: var(--cor-principal);
+}
+
 .badge-status.ativo { background: #dcfce7; color: #15803d; }
 .badge-status.inativo { background: #f1f5f9; color: #64748b; }
 

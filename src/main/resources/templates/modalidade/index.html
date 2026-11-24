@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head('Modalidades')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/menu :: menu('modalidades')}"></aside>
+
+    <main class="conteudo">
+        <header th:replace="~{fragments/menu :: topo('Modalidades')}"></header>
+
+        <div class="pagina">
+            <div class="pagina-cabecalho">
+                <div>
+                    <h2>Modalidades cadastradas</h2>
+                    <p>Atividades oferecidas pela academia.</p>
+                </div>
+                <a sec:authorize="hasAuthority('Admin')" th:href="@{/modalidades/novo}" class="btn btn-principal">
+                    <i class="bi bi-plus-lg"></i> Cadastrar Modalidade
+                </a>
+            </div>
+
+            <div th:if="${param.erroExclusao}" class="alert alert-warning">
+                Esta modalidade está em um plano e não pode ser excluída.
+            </div>
+
+            <div class="card-tabela">
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Descrição</th>
+                            <th sec:authorize="hasAuthority('Admin')" class="text-end">Ações</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="modalidade : ${modalidades}">
+                            <td th:text="${modalidade.id}"></td>
+                            <td class="fw-semibold" th:text="${modalidade.nome}"></td>
+                            <td class="text-secondary" th:text="${modalidade.descricao}"></td>
+                            <td sec:authorize="hasAuthority('Admin')" class="text-end text-nowrap">
+                                <a th:href="@{/modalidades/editar/{id}(id=${modalidade.id})}" class="btn-acao" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a th:href="@{/modalidades/excluir/{id}(id=${modalidade.id})}" class="btn-acao perigo"
+                                   title="Excluir" onclick="return confirm('Deseja realmente excluir esta modalidade?')">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(modalidades)}">
+                            <td colspan="4" class="vazio">Nenhuma modalidade cadastrada.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </main>
+</div>
+<th:block th:replace="~{fragments/footer :: scripts}"></th:block>
+</body>
+</html>

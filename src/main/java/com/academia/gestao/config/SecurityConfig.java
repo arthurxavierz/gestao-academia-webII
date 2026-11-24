@@ -25,6 +25,9 @@ public class SecurityConfig {
                 .requestMatchers("/planos/novo", "/planos/salvar", "/planos/editar/**", "/planos/atualizar/**",
                         "/planos/excluir/**")
                 .hasAuthority("Admin")
+                .requestMatchers("/modalidades/novo", "/modalidades/salvar", "/modalidades/editar/**",
+                        "/modalidades/atualizar/**", "/modalidades/excluir/**")
+                .hasAuthority("Admin")
                 .anyRequest().authenticated())
                 .formLogin(login -> login
                         .loginPage("/login")

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(${modalidade.id != null ? 'Editar Modalidade' : 'Cadastrar Modalidade'})}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/menu :: menu('modalidades')}"></aside>
+
+    <main class="conteudo">
+        <header th:replace="~{fragments/menu :: topo('Modalidades')}"></header>
+
+        <div class="pagina">
+            <div class="pagina-cabecalho">
+                <div>
+                    <h2 th:text="${modalidade.id != null ? 'Editar modalidade' : 'Cadastrar modalidade'}">Cadastrar modalidade</h2>
+                    <p>Preencha os dados da modalidade.</p>
+                </div>
+            </div>
+
+            <div class="card-form">
+                <form th:action="${modalidade.id != null ? '/modalidades/atualizar/' + modalidade.id : '/modalidades/salvar'}"
+                      th:object="${modalidade}" method="post">
+                    <input type="hidden" th:if="${modalidade.id != null}" th:field="*{id}">
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="nome" class="form-label">Nome</label>
+                            <input type="text" th:field="*{nome}" class="form-control" th:errorclass="is-invalid"
+                                   placeholder="Ex.: Musculação, Natação">
+                            <div class="invalid-feedback" th:errors="*{nome}"></div>
+                        </div>
+                        <div class="col-12">
+                            <label for="descricao" class="form-label">Descrição</label>
+                            <textarea th:field="*{descricao}" class="form-control" th:errorclass="is-invalid" rows="3"
+                                      placeholder="Uma breve descrição da atividade"></textarea>
+                            <div class="invalid-feedback" th:errors="*{descricao}"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-botoes">
+                        <button type="submit" class="btn btn-principal"
+                                th:text="${modalidade.id != null ? 'Atualizar Modalidade' : 'Cadastrar Modalidade'}">Salvar</button>
+                        <a th:href="@{/modalidades}" class="btn btn-light">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </main>
+</div>
+<th:block th:replace="~{fragments/footer :: scripts}"></th:block>
+</body>
+</html>
