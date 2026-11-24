@@ -32,6 +32,7 @@ public class SecurityConfig {
                 .requestMatchers("/instrutores/novo", "/instrutores/salvar", "/instrutores/editar/**",
                         "/instrutores/atualizar/**", "/instrutores/excluir/**")
                 .hasAuthority("Admin")
+                .requestMatchers("/alunos", "/alunos/**").hasAnyAuthority("Admin", "Recepcao")
                 .anyRequest().authenticated())
                 .formLogin(login -> login
                         .loginPage("/login")

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(${aluno.id != null ? 'Editar Aluno' : 'Cadastrar Aluno'})}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/menu :: menu('alunos')}"></aside>
+
+    <main class="conteudo">
+        <header th:replace="~{fragments/menu :: topo('Alunos')}"></header>
+
+        <div class="pagina">
+            <div class="pagina-cabecalho">
+                <div>
+                    <h2 th:text="${aluno.id != null ? 'Editar aluno' : 'Cadastrar aluno'}">Cadastrar aluno</h2>
+                    <p>Preencha os dados pessoais do aluno.</p>
+                </div>
+            </div>
+
+            <div class="card-form">
+                <form th:action="${aluno.id != null ? '/alunos/atualizar/' + aluno.id : '/alunos/salvar'}"
+                      th:object="${aluno}" method="post">
+                    <input type="hidden" th:if="${aluno.id != null}" th:field="*{id}">
+
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <label for="nome" class="form-label">Nome</label>
+                            <input type="text" th:field="*{nome}" class="form-control" th:errorclass="is-invalid"
+                                   placeholder="Nome completo">
+                            <div class="invalid-feedback" th:errors="*{nome}"></div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="cpf" class="form-label">CPF</label>
+                            <input type="text" th:field="*{cpf}" class="form-control" th:errorclass="is-invalid"
+                                   placeholder="000.000.000-00">
+                            <div class="invalid-feedback" th:errors="*{cpf}"></div>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="email" class="form-label">E-mail</label>
+                            <input type="email" th:field="*{email}" class="form-control" th:errorclass="is-invalid"
+                                   placeholder="aluno@email.com">
+                            <div class="invalid-feedback" th:errors="*{email}"></div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="telefone" class="form-label">Telefone</label>
+                            <input type="text" th:field="*{telefone}" class="form-control" th:errorclass="is-invalid"
+                                   placeholder="(34) 99999-9999">
+                            <div class="invalid-feedback" th:errors="*{telefone}"></div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="dataNascimento" class="form-label">Data de nascimento</label>
+                            <input type="date" th:field="*{dataNascimento}" class="form-control" th:errorclass="is-invalid">
+                            <div class="invalid-feedback" th:errors="*{dataNascimento}"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-botoes">
+                        <button type="submit" class="btn btn-principal"
+                                th:text="${aluno.id != null ? 'Atualizar Aluno' : 'Cadastrar Aluno'}">Salvar</button>
+                        <a th:href="@{/alunos}" class="btn btn-light">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </main>
+</div>
+<th:block th:replace="~{fragments/footer :: scripts}"></th:block>
+</body>
+</html>

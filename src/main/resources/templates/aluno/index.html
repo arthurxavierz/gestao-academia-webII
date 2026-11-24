@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head('Alunos')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/menu :: menu('alunos')}"></aside>
+
+    <main class="conteudo">
+        <header th:replace="~{fragments/menu :: topo('Alunos')}"></header>
+
+        <div class="pagina">
+            <div class="pagina-cabecalho">
+                <div>
+                    <h2>Alunos cadastrados</h2>
+                    <p>Pessoas que frequentam a academia.</p>
+                </div>
+                <a th:href="@{/alunos/novo}" class="btn btn-principal">
+                    <i class="bi bi-plus-lg"></i> Cadastrar Aluno
+                </a>
+            </div>
+
+            <div th:if="${param.erroExclusao}" class="alert alert-warning">
+                Este aluno possui matrícula e não pode ser excluído.
+            </div>
+
+            <form th:action="@{/alunos}" method="get" class="busca">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    <input type="text" name="busca" th:value="${busca}" class="form-control"
+                           placeholder="Buscar por nome ou CPF">
+                    <button type="submit" class="btn btn-principal">Buscar</button>
+                </div>
+            </form>
+
+            <div class="card-tabela">
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>E-mail</th>
+                            <th>Telefone</th>
+                            <th>Nascimento</th>
+                            <th class="text-end">Ações</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="aluno : ${alunos}">
+                            <td th:text="${aluno.id}"></td>
+                            <td class="fw-semibold" th:text="${aluno.nome}"></td>
+                            <td class="text-nowrap" th:text="${aluno.cpf}"></td>
+                            <td class="text-secondary" th:text="${aluno.email}"></td>
+                            <td class="text-secondary text-nowrap" th:text="${aluno.telefone}"></td>
+                            <td class="text-nowrap" th:text="${#temporals.format(aluno.dataNascimento, 'dd/MM/yyyy')}"></td>
+                            <td class="text-end text-nowrap">
+                                <a th:href="@{/alunos/editar/{id}(id=${aluno.id})}" class="btn-acao" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a th:href="@{/alunos/excluir/{id}(id=${aluno.id})}" class="btn-acao perigo"
+                                   title="Excluir" onclick="return confirm('Deseja realmente excluir este aluno?')">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(alunos)}">
+                            <td colspan="7" class="vazio">Nenhum aluno encontrado.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </main>
+</div>
+<th:block th:replace="~{fragments/footer :: scripts}"></th:block>
+</body>
+</html>

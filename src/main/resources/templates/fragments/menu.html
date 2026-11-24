@@ -19,7 +19,7 @@
         <a th:href="@{/instrutores}" th:classappend="${ativo == 'instrutores'} ? 'ativo'"><i class="bi bi-person-badge"></i> Instrutores</a>
 
         <span class="sidebar-titulo">Atendimento</span>
-        <a th:href="@{/alunos}" th:classappend="${ativo == 'alunos'} ? 'ativo'"><i class="bi bi-people"></i> Alunos</a>
+        <a sec:authorize="hasAnyAuthority('Admin', 'Recepcao')" th:href="@{/alunos}" th:classappend="${ativo == 'alunos'} ? 'ativo'"><i class="bi bi-people"></i> Alunos</a>
         <a th:href="@{/matriculas}" th:classappend="${ativo == 'matriculas'} ? 'ativo'"><i class="bi bi-journal-check"></i> Matrículas</a>
         <a th:href="@{/mensalidades}" th:classappend="${ativo == 'mensalidades'} ? 'ativo'"><i class="bi bi-cash-coin"></i> Mensalidades</a>
         <a th:href="@{/acessos}" th:classappend="${ativo == 'acessos'} ? 'ativo'"><i class="bi bi-door-open"></i> Check-in</a>
