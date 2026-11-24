@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.academia.gestao.model.Modalidade;
+import com.academia.gestao.repository.InstrutorRepository;
 import com.academia.gestao.repository.ModalidadeRepository;
 import com.academia.gestao.repository.PlanoRepository;
 
@@ -13,10 +14,13 @@ public class ModalidadeServiceImpl implements ModalidadeService {
 
     private final ModalidadeRepository modalidadeRepository;
     private final PlanoRepository planoRepository;
+    private final InstrutorRepository instrutorRepository;
 
-    public ModalidadeServiceImpl(ModalidadeRepository modalidadeRepository, PlanoRepository planoRepository) {
+    public ModalidadeServiceImpl(ModalidadeRepository modalidadeRepository, PlanoRepository planoRepository,
+            InstrutorRepository instrutorRepository) {
         this.modalidadeRepository = modalidadeRepository;
         this.planoRepository = planoRepository;
+        this.instrutorRepository = instrutorRepository;
     }
 
     @Override
@@ -47,8 +51,8 @@ public class ModalidadeServiceImpl implements ModalidadeService {
 
     @Override
     public void deleteModalidade(Long id) {
-        if (planoRepository.existsByModalidadesId(id)) {
-            throw new IllegalStateException("Esta modalidade está em um plano e não pode ser excluída.");
+        if (planoRepository.existsByModalidadesId(id) || instrutorRepository.existsByModalidadesId(id)) {
+            throw new IllegalStateException("Esta modalidade está em uso e não pode ser excluída.");
         }
         modalidadeRepository.deleteById(id);
     }
