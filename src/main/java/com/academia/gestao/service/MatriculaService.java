@@ -3,6 +3,7 @@ package com.academia.gestao.service;
 import java.util.List;
 
 import com.academia.gestao.model.Aluno;
+import com.academia.gestao.model.Instrutor;
 import com.academia.gestao.model.Matricula;
 import com.academia.gestao.model.Plano;
 
@@ -13,6 +14,8 @@ public interface MatriculaService {
     List<Aluno> getAllAlunos();
 
     List<Plano> getPlanosAtivos();
+
+    List<Instrutor> getAllInstrutores();
 
     Matricula saveMatricula(Matricula matricula) throws IllegalStateException;
 

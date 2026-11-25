@@ -12,7 +12,7 @@
             <div class="pagina-cabecalho">
                 <div>
                     <h2>Matrículas</h2>
-                    <p>Ligação de cada aluno com o plano que ele contratou.</p>
+                    <p>Ligação de cada aluno com o plano que ele contratou e o instrutor que acompanha.</p>
                 </div>
                 <a th:href="@{/matriculas/nova}" class="btn btn-principal">
                     <i class="bi bi-plus-lg"></i> Nova Matrícula
@@ -31,6 +31,7 @@
                             <th>ID</th>
                             <th>Aluno</th>
                             <th>Plano</th>
+                            <th>Instrutor</th>
                             <th>Início</th>
                             <th>Vencimento</th>
                             <th>Status</th>
@@ -42,6 +43,7 @@
                             <td th:text="${matricula.id}"></td>
                             <td class="fw-semibold" th:text="${matricula.aluno.nome}"></td>
                             <td th:text="${matricula.plano.nome}"></td>
+                            <td class="text-secondary" th:text="${matricula.instrutor?.nome}"></td>
                             <td class="text-nowrap" th:text="${#temporals.format(matricula.dataInicio, 'dd/MM/yyyy')}"></td>
                             <td class="text-nowrap" th:text="${#temporals.format(matricula.dataFim, 'dd/MM/yyyy')}"></td>
                             <td>
@@ -57,7 +59,7 @@
                             </td>
                         </tr>
                         <tr th:if="${#lists.isEmpty(matriculas)}">
-                            <td colspan="7" class="vazio">Nenhuma matrícula cadastrada.</td>
+                            <td colspan="8" class="vazio">Nenhuma matrícula cadastrada.</td>
                         </tr>
                         </tbody>
                     </table>

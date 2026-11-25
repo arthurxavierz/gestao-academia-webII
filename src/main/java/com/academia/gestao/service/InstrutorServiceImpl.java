@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.academia.gestao.model.Instrutor;
 import com.academia.gestao.model.Modalidade;
 import com.academia.gestao.repository.InstrutorRepository;
+import com.academia.gestao.repository.MatriculaRepository;
 import com.academia.gestao.repository.ModalidadeRepository;
 
 @Service
@@ -15,10 +16,13 @@ public class InstrutorServiceImpl implements InstrutorService {
 
     private final InstrutorRepository instrutorRepository;
     private final ModalidadeRepository modalidadeRepository;
+    private final MatriculaRepository matriculaRepository;
 
-    public InstrutorServiceImpl(InstrutorRepository instrutorRepository, ModalidadeRepository modalidadeRepository) {
+    public InstrutorServiceImpl(InstrutorRepository instrutorRepository, ModalidadeRepository modalidadeRepository,
+            MatriculaRepository matriculaRepository) {
         this.instrutorRepository = instrutorRepository;
         this.modalidadeRepository = modalidadeRepository;
+        this.matriculaRepository = matriculaRepository;
     }
 
     @Override
@@ -57,6 +61,9 @@ public class InstrutorServiceImpl implements InstrutorService {
 
     @Override
     public void deleteInstrutor(Long id) {
+        if (matriculaRepository.existsByInstrutorId(id)) {
+            throw new IllegalStateException("Este instrutor acompanha alunos matriculados e não pode ser excluído.");
+        }
         instrutorRepository.deleteById(id);
     }
 

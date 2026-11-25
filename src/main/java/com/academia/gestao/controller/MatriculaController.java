@@ -37,6 +37,7 @@ public class MatriculaController {
         model.addAttribute("matricula", matricula);
         model.addAttribute("alunos", matriculaService.getAllAlunos());
         model.addAttribute("planos", matriculaService.getPlanosAtivos());
+        model.addAttribute("instrutores", matriculaService.getAllInstrutores());
         return "matricula/form";
     }
 
@@ -54,6 +55,7 @@ public class MatriculaController {
 
         model.addAttribute("alunos", matriculaService.getAllAlunos());
         model.addAttribute("planos", matriculaService.getPlanosAtivos());
+        model.addAttribute("instrutores", matriculaService.getAllInstrutores());
         return "matricula/form";
     }
 

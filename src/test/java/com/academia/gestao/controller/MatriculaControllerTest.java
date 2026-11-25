@@ -34,6 +34,7 @@ import com.academia.gestao.config.AppConfig;
 import com.academia.gestao.config.SecurityConfig;
 import com.academia.gestao.config.TestConfig;
 import com.academia.gestao.model.Aluno;
+import com.academia.gestao.model.Instrutor;
 import com.academia.gestao.model.Matricula;
 import com.academia.gestao.model.Plano;
 import com.academia.gestao.model.StatusMatricula;
@@ -71,11 +72,20 @@ public class MatriculaControllerTest {
         return plano;
     }
 
+    private Instrutor testCreateInstrutor() {
+        Instrutor instrutor = new Instrutor();
+        instrutor.setId(1L);
+        instrutor.setNome("Carlos Souza");
+        instrutor.setCref("012345-G/MG");
+        return instrutor;
+    }
+
     private Matricula testCreateMatricula() {
         Matricula matricula = new Matricula();
         matricula.setId(1L);
         matricula.setAluno(testCreateAluno());
         matricula.setPlano(testCreatePlano());
+        matricula.setInstrutor(testCreateInstrutor());
         matricula.setDataInicio(LocalDate.of(2026, 11, 1));
         matricula.setDataFim(LocalDate.of(2026, 12, 1));
         matricula.setStatus(StatusMatricula.ATIVA);
@@ -101,6 +111,7 @@ public class MatriculaControllerTest {
                 .andExpect(view().name("matricula/index"))
                 .andExpect(model().attributeExists("matriculas"))
                 .andExpect(content().string(containsString("João Pereira")))
+                .andExpect(content().string(containsString("Carlos Souza")))
                 .andExpect(content().string(containsString("01/12/2026")))
                 .andExpect(content().string(containsString("Ativa")));
     }
@@ -133,13 +144,15 @@ public class MatriculaControllerTest {
     void testNova() throws Exception {
         when(matriculaService.getAllAlunos()).thenReturn(List.of(testCreateAluno()));
         when(matriculaService.getPlanosAtivos()).thenReturn(List.of(testCreatePlano()));
+        when(matriculaService.getAllInstrutores()).thenReturn(List.of(testCreateInstrutor()));
 
         mockMvc.perform(get("/matriculas/nova"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("matricula/form"))
-                .andExpect(model().attributeExists("matricula", "alunos", "planos"))
+                .andExpect(model().attributeExists("matricula", "alunos", "planos", "instrutores"))
                 .andExpect(content().string(containsString("João Pereira")))
-                .andExpect(content().string(containsString("Mensal")));
+                .andExpect(content().string(containsString("Mensal")))
+                .andExpect(content().string(containsString("Carlos Souza")));
     }
 
     @Test

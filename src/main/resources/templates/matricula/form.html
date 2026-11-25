@@ -12,7 +12,7 @@
             <div class="pagina-cabecalho">
                 <div>
                     <h2>Nova matrícula</h2>
-                    <p>Escolha o aluno e o plano. O vencimento é calculado pela duração do plano.</p>
+                    <p>Escolha o aluno, o plano e o instrutor. O vencimento é calculado pela duração do plano.</p>
                 </div>
             </div>
 
@@ -24,19 +24,26 @@
                     </div>
 
                     <div class="row g-3">
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                             <label for="aluno" class="form-label">Aluno</label>
                             <select id="aluno" th:field="*{aluno.id}" class="form-select">
                                 <option value="">Escolha o aluno</option>
                                 <option th:each="a : ${alunos}" th:value="${a.id}" th:text="${a.nome + ' (' + a.cpf + ')'}"></option>
                             </select>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label for="plano" class="form-label">Plano</label>
                             <select id="plano" th:field="*{plano.id}" class="form-select">
                                 <option value="">Escolha o plano</option>
                                 <option th:each="p : ${planos}" th:value="${p.id}"
                                         th:text="${p.nome + ' - R$ ' + #numbers.formatDecimal(p.valor, 1, 'POINT', 2, 'COMMA') + ' (' + p.duracaoDias + ' dias)'}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="instrutor" class="form-label">Instrutor responsável</label>
+                            <select id="instrutor" th:field="*{instrutor.id}" class="form-select">
+                                <option value="">Escolha o instrutor</option>
+                                <option th:each="i : ${instrutores}" th:value="${i.id}" th:text="${i.nome}"></option>
                             </select>
                         </div>
                         <div class="col-md-3">

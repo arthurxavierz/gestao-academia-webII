@@ -19,4 +19,6 @@ public interface MatriculaRepository extends JpaRepository<Matricula, Long> {
 
     boolean existsByPlanoId(Long planoId);
 
+    boolean existsByInstrutorId(Long instrutorId);
+
 }

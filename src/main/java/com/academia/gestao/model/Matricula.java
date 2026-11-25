@@ -34,6 +34,11 @@ public class Matricula {
     @JoinColumn(name = "plano_id")
     private Plano plano;
 
+    @NotNull(message = "Escolha um instrutor")
+    @ManyToOne
+    @JoinColumn(name = "instrutor_id")
+    private Instrutor instrutor;
+
     @NotNull(message = "Data de início é um campo obrigatório")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dataInicio;

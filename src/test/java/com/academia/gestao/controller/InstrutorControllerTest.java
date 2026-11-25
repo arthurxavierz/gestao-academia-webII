@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
@@ -161,6 +162,18 @@ public class InstrutorControllerTest {
                 .andExpect(view().name("redirect:/instrutores"));
 
         verify(instrutorService).deleteInstrutor(1L);
+    }
+
+    @Test
+    @WithMockUser(username = "admin@academia.com", authorities = { "Admin" })
+    @DisplayName("GET /instrutores/excluir/{id} - Instrutor com matrícula não é excluído")
+    void testExcluirComMatricula() throws Exception {
+        doThrow(new IllegalStateException("Este instrutor acompanha alunos matriculados e não pode ser excluído."))
+                .when(instrutorService).deleteInstrutor(1L);
+
+        mockMvc.perform(get("/instrutores/excluir/1"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/instrutores?erroExclusao"));
     }
 
 }
