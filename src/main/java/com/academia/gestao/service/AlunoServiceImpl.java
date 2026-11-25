@@ -6,14 +6,17 @@ import org.springframework.stereotype.Service;
 
 import com.academia.gestao.model.Aluno;
 import com.academia.gestao.repository.AlunoRepository;
+import com.academia.gestao.repository.MatriculaRepository;
 
 @Service
 public class AlunoServiceImpl implements AlunoService {
 
     private final AlunoRepository alunoRepository;
+    private final MatriculaRepository matriculaRepository;
 
-    public AlunoServiceImpl(AlunoRepository alunoRepository) {
+    public AlunoServiceImpl(AlunoRepository alunoRepository, MatriculaRepository matriculaRepository) {
         this.alunoRepository = alunoRepository;
+        this.matriculaRepository = matriculaRepository;
     }
 
     @Override
@@ -62,6 +65,9 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Override
     public void deleteAluno(Long id) {
+        if (matriculaRepository.existsByAlunoId(id)) {
+            throw new IllegalStateException("Este aluno possui matrícula e não pode ser excluído.");
+        }
         alunoRepository.deleteById(id);
     }
 

@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
@@ -183,6 +184,18 @@ public class PlanoControllerTest {
                 .andExpect(view().name("redirect:/planos"));
 
         verify(planoService).deletePlano(1L);
+    }
+
+    @Test
+    @WithMockUser(username = "admin@academia.com", authorities = { "Admin" })
+    @DisplayName("GET /planos/excluir/{id} - Plano com matrícula não é excluído")
+    void testExcluirComMatricula() throws Exception {
+        doThrow(new IllegalStateException("Este plano possui matrículas e não pode ser excluído."))
+                .when(planoService).deletePlano(1L);
+
+        mockMvc.perform(get("/planos/excluir/1"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/planos?erroExclusao"));
     }
 
 }

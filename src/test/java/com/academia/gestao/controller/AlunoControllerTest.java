@@ -192,4 +192,16 @@ public class AlunoControllerTest {
         verify(alunoService).deleteAluno(1L);
     }
 
+    @Test
+    @WithMockUser(username = "admin@academia.com", authorities = { "Admin" })
+    @DisplayName("GET /alunos/excluir/{id} - Aluno com matrícula não é excluído")
+    void testExcluirComMatricula() throws Exception {
+        doThrow(new IllegalStateException("Este aluno possui matrícula e não pode ser excluído."))
+                .when(alunoService).deleteAluno(1L);
+
+        mockMvc.perform(get("/alunos/excluir/1"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/alunos?erroExclusao"));
+    }
+
 }

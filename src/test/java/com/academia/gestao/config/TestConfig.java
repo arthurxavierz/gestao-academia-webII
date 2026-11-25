@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.academia.gestao.service.AlunoService;
 import com.academia.gestao.service.InstrutorService;
+import com.academia.gestao.service.MatriculaService;
 import com.academia.gestao.service.ModalidadeService;
 import com.academia.gestao.service.PlanoService;
 import com.academia.gestao.service.UserService;
@@ -37,6 +38,11 @@ public class TestConfig {
     @Bean
     public AlunoService alunoService() {
         return Mockito.mock(AlunoService.class);
+    }
+
+    @Bean
+    public MatriculaService matriculaService() {
+        return Mockito.mock(MatriculaService.class);
     }
 
     @Bean

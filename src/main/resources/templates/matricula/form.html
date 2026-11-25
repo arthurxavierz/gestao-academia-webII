@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Nova Matrícula')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/menu :: menu('matriculas')}"></aside>
+
+    <main class="conteudo">
+        <header th:replace="~{fragments/menu :: topo('Matrículas')}"></header>
+
+        <div class="pagina">
+            <div class="pagina-cabecalho">
+                <div>
+                    <h2>Nova matrícula</h2>
+                    <p>Escolha o aluno e o plano. O vencimento é calculado pela duração do plano.</p>
+                </div>
+            </div>
+
+            <div class="card-form">
+                <form th:action="@{/matriculas/salvar}" th:object="${matricula}" method="post">
+
+                    <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger">
+                        <p th:each="erro : ${#fields.globalErrors()}" th:text="${erro}" class="mb-0"></p>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-5">
+                            <label for="aluno" class="form-label">Aluno</label>
+                            <select id="aluno" th:field="*{aluno.id}" class="form-select">
+                                <option value="">Escolha o aluno</option>
+                                <option th:each="a : ${alunos}" th:value="${a.id}" th:text="${a.nome + ' (' + a.cpf + ')'}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="plano" class="form-label">Plano</label>
+                            <select id="plano" th:field="*{plano.id}" class="form-select">
+                                <option value="">Escolha o plano</option>
+                                <option th:each="p : ${planos}" th:value="${p.id}"
+                                        th:text="${p.nome + ' - R$ ' + #numbers.formatDecimal(p.valor, 1, 'POINT', 2, 'COMMA') + ' (' + p.duracaoDias + ' dias)'}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="dataInicio" class="form-label">Data de início</label>
+                            <input type="date" th:field="*{dataInicio}" class="form-control" th:errorclass="is-invalid">
+                            <div class="invalid-feedback" th:errors="*{dataInicio}"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-botoes">
+                        <button type="submit" class="btn btn-principal">Matricular</button>
+                        <a th:href="@{/matriculas}" class="btn btn-light">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </main>
+</div>
+<th:block th:replace="~{fragments/footer :: scripts}"></th:block>
+</body>
+</html>

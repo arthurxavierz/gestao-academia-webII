@@ -1,6 +1,8 @@
 package com.academia.gestao.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -9,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,6 +19,8 @@ import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -44,5 +49,10 @@ public class Aluno {
     @Past(message = "Data de nascimento deve ser no passado")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dataNascimento;
+
+    @OneToMany(mappedBy = "aluno")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<Matricula> matriculas = new ArrayList<>();
 
 }

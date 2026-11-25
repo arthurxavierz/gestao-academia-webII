@@ -33,6 +33,7 @@ public class SecurityConfig {
                         "/instrutores/atualizar/**", "/instrutores/excluir/**")
                 .hasAuthority("Admin")
                 .requestMatchers("/alunos", "/alunos/**").hasAnyAuthority("Admin", "Recepcao")
+                .requestMatchers("/matriculas", "/matriculas/**").hasAnyAuthority("Admin", "Recepcao")
                 .anyRequest().authenticated())
                 .formLogin(login -> login
                         .loginPage("/login")

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.academia.gestao.model.Modalidade;
 import com.academia.gestao.model.Plano;
+import com.academia.gestao.repository.MatriculaRepository;
 import com.academia.gestao.repository.ModalidadeRepository;
 import com.academia.gestao.repository.PlanoRepository;
 
@@ -15,10 +16,13 @@ public class PlanoServiceImpl implements PlanoService {
 
     private final PlanoRepository planoRepository;
     private final ModalidadeRepository modalidadeRepository;
+    private final MatriculaRepository matriculaRepository;
 
-    public PlanoServiceImpl(PlanoRepository planoRepository, ModalidadeRepository modalidadeRepository) {
+    public PlanoServiceImpl(PlanoRepository planoRepository, ModalidadeRepository modalidadeRepository,
+            MatriculaRepository matriculaRepository) {
         this.planoRepository = planoRepository;
         this.modalidadeRepository = modalidadeRepository;
+        this.matriculaRepository = matriculaRepository;
     }
 
     @Override
@@ -57,6 +61,9 @@ public class PlanoServiceImpl implements PlanoService {
 
     @Override
     public void deletePlano(Long id) {
+        if (matriculaRepository.existsByPlanoId(id)) {
+            throw new IllegalStateException("Este plano possui matrículas e não pode ser excluído.");
+        }
         planoRepository.deleteById(id);
     }
 

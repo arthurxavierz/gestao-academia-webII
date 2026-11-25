@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Matrículas')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/menu :: menu('matriculas')}"></aside>
+
+    <main class="conteudo">
+        <header th:replace="~{fragments/menu :: topo('Matrículas')}"></header>
+
+        <div class="pagina">
+            <div class="pagina-cabecalho">
+                <div>
+                    <h2>Matrículas</h2>
+                    <p>Ligação de cada aluno com o plano que ele contratou.</p>
+                </div>
+                <a th:href="@{/matriculas/nova}" class="btn btn-principal">
+                    <i class="bi bi-plus-lg"></i> Nova Matrícula
+                </a>
+            </div>
+
+            <div th:if="${param.erroCancelamento}" class="alert alert-warning">
+                Esta matrícula já está cancelada.
+            </div>
+
+            <div class="card-tabela">
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Aluno</th>
+                            <th>Plano</th>
+                            <th>Início</th>
+                            <th>Vencimento</th>
+                            <th>Status</th>
+                            <th class="text-end">Ações</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="matricula : ${matriculas}">
+                            <td th:text="${matricula.id}"></td>
+                            <td class="fw-semibold" th:text="${matricula.aluno.nome}"></td>
+                            <td th:text="${matricula.plano.nome}"></td>
+                            <td class="text-nowrap" th:text="${#temporals.format(matricula.dataInicio, 'dd/MM/yyyy')}"></td>
+                            <td class="text-nowrap" th:text="${#temporals.format(matricula.dataFim, 'dd/MM/yyyy')}"></td>
+                            <td>
+                                <span th:if="${matricula.status.name() == 'ATIVA'}" class="badge-status ativo">Ativa</span>
+                                <span th:if="${matricula.status.name() == 'CANCELADA'}" class="badge-status inativo">Cancelada</span>
+                            </td>
+                            <td class="text-end text-nowrap">
+                                <a th:if="${matricula.status.name() == 'ATIVA'}"
+                                   th:href="@{/matriculas/cancelar/{id}(id=${matricula.id})}" class="btn-acao perigo"
+                                   title="Cancelar" onclick="return confirm('Deseja realmente cancelar esta matrícula?')">
+                                    <i class="bi bi-x-circle"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(matriculas)}">
+                            <td colspan="7" class="vazio">Nenhuma matrícula cadastrada.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </main>
+</div>
+<th:block th:replace="~{fragments/footer :: scripts}"></th:block>
+</body>
+</html>
