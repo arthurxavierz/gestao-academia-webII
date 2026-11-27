@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Registrar Pagamento')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/menu :: menu('mensalidades')}"></aside>
+
+    <main class="conteudo">
+        <header th:replace="~{fragments/menu :: topo('Mensalidades')}"></header>
+
+        <div class="pagina">
+            <div class="pagina-cabecalho">
+                <div>
+                    <h2>Registrar pagamento</h2>
+                    <p>Confira a mensalidade e escolha como o aluno pagou.</p>
+                </div>
+            </div>
+
+            <div class="card-form">
+                <form th:action="@{/pagamentos/salvar}" th:object="${pagamento}" method="post">
+                    <input type="hidden" th:field="*{cobranca.id}">
+
+                    <div class="row g-3" th:if="${pagamento.cobranca != null}">
+                        <div class="col-md-4">
+                            <label class="form-label">Aluno</label>
+                            <input type="text" class="form-control" th:value="${pagamento.cobranca.matricula.aluno.nome}" disabled>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Parcela</label>
+                            <input type="text" class="form-control" disabled
+                                   th:value="${pagamento.cobranca.parcela + 'ª - ' + pagamento.cobranca.matricula.plano.nome}">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Vencimento</label>
+                            <input type="text" class="form-control" disabled
+                                   th:value="${#temporals.format(pagamento.cobranca.dataVencimento, 'dd/MM/yyyy')}">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Valor</label>
+                            <input type="text" class="form-control" disabled
+                                   th:value="${'R$ ' + #numbers.formatDecimal(pagamento.cobranca.valor, 1, 'POINT', 2, 'COMMA')}">
+                        </div>
+                        <div class="col-md-5">
+                            <label for="formaPagamento" class="form-label">Forma de pagamento</label>
+                            <select id="formaPagamento" th:field="*{formaPagamento}" class="form-select" th:errorclass="is-invalid">
+                                <option value="">Escolha a forma</option>
+                                <option value="Dinheiro">Dinheiro</option>
+                                <option value="Pix">Pix</option>
+                                <option value="Cartão">Cartão</option>
+                            </select>
+                            <div class="invalid-feedback" th:errors="*{formaPagamento}"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-botoes">
+                        <button type="submit" class="btn btn-principal">Confirmar Pagamento</button>
+                        <a th:href="@{/mensalidades}" class="btn btn-light">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </main>
+</div>
+<th:block th:replace="~{fragments/footer :: scripts}"></th:block>
+</body>
+</html>

@@ -35,6 +35,7 @@ public class SecurityConfig {
                 .requestMatchers("/alunos", "/alunos/**").hasAnyAuthority("Admin", "Recepcao")
                 .requestMatchers("/matriculas", "/matriculas/**").hasAnyAuthority("Admin", "Recepcao")
                 .requestMatchers("/mensalidades", "/mensalidades/**").hasAnyAuthority("Admin", "Recepcao")
+                .requestMatchers("/pagamentos", "/pagamentos/**").hasAnyAuthority("Admin", "Recepcao")
                 .anyRequest().authenticated())
                 .formLogin(login -> login
                         .loginPage("/login")

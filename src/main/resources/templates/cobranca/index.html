@@ -14,6 +14,16 @@
                     <h2>Mensalidades</h2>
                     <p>Geradas automaticamente quando o aluno é matriculado.</p>
                 </div>
+                <a th:href="@{/pagamentos}" class="btn btn-light">
+                    <i class="bi bi-receipt"></i> Ver pagamentos
+                </a>
+            </div>
+
+            <div th:if="${param.pago}" class="alert alert-success">
+                Pagamento registrado com sucesso.
+            </div>
+            <div th:if="${param.erroPagamento}" class="alert alert-warning">
+                Esta mensalidade não foi encontrada ou já está paga.
             </div>
 
             <div class="card-tabela">
@@ -27,6 +37,7 @@
                             <th>Vencimento</th>
                             <th>Valor</th>
                             <th>Status</th>
+                            <th class="text-end">Ações</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -41,9 +52,15 @@
                                 <span th:if="${cobranca.status.name() == 'PAGA'}" class="badge-status ativo">Paga</span>
                                 <span th:if="${cobranca.status.name() == 'ATRASADA'}" class="badge-status atrasada">Atrasada</span>
                             </td>
+                            <td class="text-end text-nowrap">
+                                <a th:if="${cobranca.status.name() != 'PAGA'}"
+                                   th:href="@{/pagamentos/novo/{id}(id=${cobranca.id})}" class="btn-acao" title="Registrar pagamento">
+                                    <i class="bi bi-cash-coin"></i>
+                                </a>
+                            </td>
                         </tr>
                         <tr th:if="${#lists.isEmpty(cobrancas)}">
-                            <td colspan="6" class="vazio">Nenhuma mensalidade gerada ainda.</td>
+                            <td colspan="7" class="vazio">Nenhuma mensalidade gerada ainda.</td>
                         </tr>
                         </tbody>
                     </table>

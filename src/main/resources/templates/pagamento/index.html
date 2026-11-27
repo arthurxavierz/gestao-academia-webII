@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Pagamentos')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/menu :: menu('mensalidades')}"></aside>
+
+    <main class="conteudo">
+        <header th:replace="~{fragments/menu :: topo('Pagamentos')}"></header>
+
+        <div class="pagina">
+            <div class="pagina-cabecalho">
+                <div>
+                    <h2>Pagamentos recebidos</h2>
+                    <p>Histórico das mensalidades que já foram pagas.</p>
+                </div>
+                <a th:href="@{/mensalidades}" class="btn btn-light">
+                    <i class="bi bi-arrow-left"></i> Mensalidades
+                </a>
+            </div>
+
+            <div class="card-tabela">
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                        <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Aluno</th>
+                            <th>Parcela</th>
+                            <th>Forma</th>
+                            <th>Valor</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="pagamento : ${pagamentos}">
+                            <td class="text-nowrap" th:text="${#temporals.format(pagamento.dataPagamento, 'dd/MM/yyyy')}"></td>
+                            <td class="fw-semibold" th:text="${pagamento.cobranca.matricula.aluno.nome}"></td>
+                            <td th:text="${pagamento.cobranca.parcela + 'ª - ' + pagamento.cobranca.matricula.plano.nome}"></td>
+                            <td><span class="etiqueta" th:text="${pagamento.formaPagamento}"></span></td>
+                            <td class="text-nowrap" th:text="${'R$ ' + #numbers.formatDecimal(pagamento.valorPago, 1, 'POINT', 2, 'COMMA')}"></td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(pagamentos)}">
+                            <td colspan="5" class="vazio">Nenhum pagamento registrado.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </main>
+</div>
+<th:block th:replace="~{fragments/footer :: scripts}"></th:block>
+</body>
+</html>

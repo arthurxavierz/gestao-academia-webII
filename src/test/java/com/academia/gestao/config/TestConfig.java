@@ -10,6 +10,7 @@ import com.academia.gestao.service.CobrancaService;
 import com.academia.gestao.service.InstrutorService;
 import com.academia.gestao.service.MatriculaService;
 import com.academia.gestao.service.ModalidadeService;
+import com.academia.gestao.service.PagamentoService;
 import com.academia.gestao.service.PlanoService;
 import com.academia.gestao.service.UserService;
 
@@ -49,6 +50,11 @@ public class TestConfig {
     @Bean
     public CobrancaService cobrancaService() {
         return Mockito.mock(CobrancaService.class);
+    }
+
+    @Bean
+    public PagamentoService pagamentoService() {
+        return Mockito.mock(PagamentoService.class);
     }
 
     @Bean
