@@ -1,15 +1,21 @@
 package com.academia.gestao.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.academia.gestao.model.Aluno;
+import com.academia.gestao.model.Cobranca;
 import com.academia.gestao.model.Instrutor;
 import com.academia.gestao.model.Matricula;
 import com.academia.gestao.model.Plano;
+import com.academia.gestao.model.StatusCobranca;
 import com.academia.gestao.model.StatusMatricula;
 import com.academia.gestao.repository.AlunoRepository;
+import com.academia.gestao.repository.CobrancaRepository;
 import com.academia.gestao.repository.InstrutorRepository;
 import com.academia.gestao.repository.MatriculaRepository;
 import com.academia.gestao.repository.PlanoRepository;
@@ -21,13 +27,16 @@ public class MatriculaServiceImpl implements MatriculaService {
     private final AlunoRepository alunoRepository;
     private final PlanoRepository planoRepository;
     private final InstrutorRepository instrutorRepository;
+    private final CobrancaRepository cobrancaRepository;
 
     public MatriculaServiceImpl(MatriculaRepository matriculaRepository, AlunoRepository alunoRepository,
-            PlanoRepository planoRepository, InstrutorRepository instrutorRepository) {
+            PlanoRepository planoRepository, InstrutorRepository instrutorRepository,
+            CobrancaRepository cobrancaRepository) {
         this.matriculaRepository = matriculaRepository;
         this.alunoRepository = alunoRepository;
         this.planoRepository = planoRepository;
         this.instrutorRepository = instrutorRepository;
+        this.cobrancaRepository = cobrancaRepository;
     }
 
     @Override
@@ -82,7 +91,28 @@ public class MatriculaServiceImpl implements MatriculaService {
         matricula.setDataFim(matricula.getDataInicio().plusDays(plano.getDuracaoDias()));
         matricula.setStatus(StatusMatricula.ATIVA);
 
-        return matriculaRepository.save(matricula);
+        Matricula salva = matriculaRepository.save(matricula);
+        cobrancaRepository.saveAll(gerarCobrancas(salva));
+        return salva;
+    }
+
+    private List<Cobranca> gerarCobrancas(Matricula matricula) {
+        Plano plano = matricula.getPlano();
+        int parcelas = Math.max(1, plano.getDuracaoDias() / 30);
+        BigDecimal valorParcela = plano.getValor().divide(BigDecimal.valueOf(parcelas), 2, RoundingMode.DOWN);
+        BigDecimal resto = plano.getValor().subtract(valorParcela.multiply(BigDecimal.valueOf(parcelas)));
+
+        List<Cobranca> cobrancas = new ArrayList<>();
+        for (int i = 0; i < parcelas; i++) {
+            Cobranca cobranca = new Cobranca();
+            cobranca.setMatricula(matricula);
+            cobranca.setParcela(i + 1);
+            cobranca.setValor(i == parcelas - 1 ? valorParcela.add(resto) : valorParcela);
+            cobranca.setDataVencimento(matricula.getDataInicio().plusMonths(i));
+            cobranca.setStatus(StatusCobranca.ABERTA);
+            cobrancas.add(cobranca);
+        }
+        return cobrancas;
     }
 
     @Override

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Mensalidades')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/menu :: menu('mensalidades')}"></aside>
+
+    <main class="conteudo">
+        <header th:replace="~{fragments/menu :: topo('Mensalidades')}"></header>
+
+        <div class="pagina">
+            <div class="pagina-cabecalho">
+                <div>
+                    <h2>Mensalidades</h2>
+                    <p>Geradas automaticamente quando o aluno é matriculado.</p>
+                </div>
+            </div>
+
+            <div class="card-tabela">
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                        <thead>
+                        <tr>
+                            <th>Aluno</th>
+                            <th>Plano</th>
+                            <th>Parcela</th>
+                            <th>Vencimento</th>
+                            <th>Valor</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="cobranca : ${cobrancas}">
+                            <td class="fw-semibold" th:text="${cobranca.matricula.aluno.nome}"></td>
+                            <td th:text="${cobranca.matricula.plano.nome}"></td>
+                            <td th:text="${cobranca.parcela + 'ª'}"></td>
+                            <td class="text-nowrap" th:text="${#temporals.format(cobranca.dataVencimento, 'dd/MM/yyyy')}"></td>
+                            <td class="text-nowrap" th:text="${'R$ ' + #numbers.formatDecimal(cobranca.valor, 1, 'POINT', 2, 'COMMA')}"></td>
+                            <td>
+                                <span th:if="${cobranca.status.name() == 'ABERTA'}" class="badge-status aberta">Aberta</span>
+                                <span th:if="${cobranca.status.name() == 'PAGA'}" class="badge-status ativo">Paga</span>
+                                <span th:if="${cobranca.status.name() == 'ATRASADA'}" class="badge-status atrasada">Atrasada</span>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(cobrancas)}">
+                            <td colspan="6" class="vazio">Nenhuma mensalidade gerada ainda.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </main>
+</div>
+<th:block th:replace="~{fragments/footer :: scripts}"></th:block>
+</body>
+</html>

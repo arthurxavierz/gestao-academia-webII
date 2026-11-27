@@ -438,6 +438,8 @@ body {
 
 .badge-status.ativo { background: #dcfce7; color: #15803d; }
 .badge-status.inativo { background: #f1f5f9; color: #64748b; }
+.badge-status.aberta { background: #fef3c7; color: #b45309; }
+.badge-status.atrasada { background: #fee2e2; color: #b91c1c; }
 
 .btn-acao {
     display: inline-grid;
